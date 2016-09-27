@@ -15,7 +15,6 @@ public class AppModule {
 
     private Application mApplication;
 
-
     public AppModule(Application application) {
         this.mApplication = application;
     }
@@ -25,4 +24,6 @@ public class AppModule {
     Application provideApplication(){
         return mApplication;
     }
+
+
 }

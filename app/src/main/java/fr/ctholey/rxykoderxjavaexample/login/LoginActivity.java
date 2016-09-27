@@ -16,12 +16,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.ctholey.rxykoderxjavaexample.MyApplication;
 import fr.ctholey.rxykoderxjavaexample.R;
 import fr.ctholey.rxykoderxjavaexample.models.Joke;
-import fr.ctholey.rxykoderxjavaexample.ws.OkHttpCaller;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class LoginActivity extends AppCompatActivity implements LoginView{
@@ -33,24 +31,28 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @BindView(R.id.btnRegister)  Button mBtnRegister;
     @BindView(R.id.btnRandomJoke)  Button mBtnRandomJoke;
     @BindView(R.id.tvJokeDescription)  TextView mTvJokeDescription;
+    @BindView(R.id.btnSaveJoke) Button mBtnSaveJoke;
 
     private CompositeSubscription compositeSubs = new CompositeSubscription();
 
     @Inject
-    OkHttpCaller httpCaller;
-
-    private LoginPresenterImpl presenter;
+    LoginPresenterImpl presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
-        ButterKnife.setDebug(true);
+//        ButterKnife.setDebug(true);
+        MyApplication.getActivityComponent(this).inject(this);
+
+        presenter.setView(this);
 
         setTitle("Rxjava test");
 
         mBtnRandomJoke.setOnClickListener(v -> callChuckNorrisJokeRandom());
+        mBtnSaveJoke.setOnClickListener(v -> saveCurrentJoke());
     }
 
     @Override
@@ -60,28 +62,22 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         initRGChampsDeSaisie();
     }
 
-
-    private void callChuckNorrisJokeRandom() {
-
-        compositeSubs.add(
-            httpCaller.getChuckNorrisJokeRandom()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .retry(2)
-            .subscribe(
-                    joke -> handleJokeContent(joke),
-                    throwable -> Log.d(TAG, throwable.getMessage())
-            )
-        );
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.setView(null);
     }
 
+    private void callChuckNorrisJokeRandom() {
+        presenter.callChuckNorrisJokeRandom();
+    }
 
-    private void handleJokeContent(Joke joke){
+    @Override
+    public void handleJokeContent(Joke joke){
         if (null != joke){
             mTvJokeDescription.setText(joke.getJoke());
         }
     }
-
 
     private void initRGChampsDeSaisie(){
         final Pattern emailPattern = Pattern.compile(
@@ -133,11 +129,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         );
     }
 
+    private void saveCurrentJoke() {
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+//        presenter. TODO SAVE TO REALM DB
 
-        compositeSubs.unsubscribe();
     }
 }

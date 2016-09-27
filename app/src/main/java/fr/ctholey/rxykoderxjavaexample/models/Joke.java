@@ -3,17 +3,29 @@ package fr.ctholey.rxykoderxjavaexample.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
+import io.realm.annotations.RealmModule;
+
 /**
  * Created by ctholey on 20/09/2016.
  */
+@RealmClass
+public class Joke implements RealmModel{
 
-public class Joke {
-
+    @PrimaryKey
     private int id;
 
     private String joke;
 
+    @Ignore
     private List<Object> categories = new ArrayList<Object>();
+
+    private RealmList<Note> notes;
 
     /**
      *
@@ -69,6 +81,21 @@ public class Joke {
         this.categories = categories;
     }
 
+    /**
+     *
+     * @return
+     * The note
+     */
+    public RealmList<Note> getNotes() {
+        return notes;
+    }
 
-
+    /**
+     *
+     * @param notes
+     * The notes
+     */
+    public void setNotes(RealmList<Note> notes) {
+        this.notes = notes;
+    }
 }

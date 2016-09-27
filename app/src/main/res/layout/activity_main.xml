@@ -39,14 +39,6 @@
         android:layout_alignRight="@id/edtUserName"
         android:text="Register"/>
 
-    <Button
-        android:id="@+id/btnRandomJoke"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edtUserName"
-        android:layout_alignLeft="@id/edtUserName"
-        android:text="random joke"/>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -62,5 +54,22 @@
             android:textAlignment="center"/>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnRandomJoke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="random joke"
+        android:layout_below="@+id/edtUserName"
+        android:layout_alignParentStart="true"/>
+
+
+    <Button
+        android:id="@+id/btnSaveJoke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show jokes"
+        android:layout_alignParentBottom="true"/>
+
 
 </RelativeLayout>

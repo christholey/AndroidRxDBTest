@@ -23,13 +23,13 @@ public class OkHttpCaller implements ICaller{
 
     protected static final String CHUCK_JOKE_RANDOM = "http://api.icndb.com/jokes/random";
 
-    private OkHttpClient client;
+    private OkHttpClient mClient;
+    private Gson mGson;
 
     @Inject
-    Gson gson;
-
-    public OkHttpCaller(OkHttpClient httpClient) {
-        this.client = httpClient;
+    public OkHttpCaller(OkHttpClient httpClient, Gson gson) {
+        this.mClient = httpClient;
+        this.mGson = gson;
     }
 
 
@@ -38,7 +38,7 @@ public class OkHttpCaller implements ICaller{
                 .url(url)
                 .build();
 
-        client.newCall(request).enqueue(responseCallback);
+        mClient.newCall(request).enqueue(responseCallback);
     }
 
     public Response triggerRequestSync(String url) throws IOException {
@@ -46,7 +46,7 @@ public class OkHttpCaller implements ICaller{
                 .url(url)
                 .build();
 
-        return client.newCall(request).execute();
+        return mClient.newCall(request).execute();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class OkHttpCaller implements ICaller{
         T result;
 
         JsonObject jsonObject = jsonParser.parse(response.body().string()).getAsJsonObject();
-        result = gson.fromJson(jsonObject.get(key).toString(), type);
+        result = mGson.fromJson(jsonObject.get(key).toString(), type);
 
         return result;
     }

@@ -1,6 +1,12 @@
 package fr.ctholey.rxykoderxjavaexample.injection;
 
+import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.google.gson.Gson;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,30 +20,36 @@ import okhttp3.OkHttpClient;
 @Module
 public class NetModule {
 
-    String mBaseUrl;
-
-    public NetModule(String baseUrl) {
-        this.mBaseUrl = baseUrl;
+    public NetModule() {
     }
 
+    @Provides
+    @Singleton
+    // Application reference must come from AppModule.class
+    SharedPreferences providesSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
+    }
 
     @Provides
+    @Singleton
     Gson provideGson(){
         return new Gson();
 
         //Voir pour GsonBuilder.create
     }
 
-
     @Provides
+    @Singleton
     OkHttpClient provideOkHttpClient(){
         return new OkHttpClient();
     }
 
-
     @Provides
-    OkHttpCaller provideOkHttpCaller(OkHttpClient httpClient){
-        return new OkHttpCaller(httpClient);
+    @Singleton
+    OkHttpCaller provideOkHttpCaller(OkHttpClient httpClient, Gson gson){
+        return new OkHttpCaller(httpClient, gson);
     }
+
+
 
 }
