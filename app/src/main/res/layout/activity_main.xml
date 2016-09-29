@@ -68,7 +68,7 @@
         android:id="@+id/btnSaveJoke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show jokes"
+        android:text="Save this joke"
         android:layout_alignParentBottom="true"/>
 
 

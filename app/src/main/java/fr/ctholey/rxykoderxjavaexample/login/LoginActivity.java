@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -131,7 +132,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     private void saveCurrentJoke() {
 
-//        presenter. TODO SAVE TO REALM DB
+        String joke = mTvJokeDescription.getText().toString();
+        presenter.saveJoke(joke);
 
+    }
+
+    @Override
+    public void handleJokeSuccessfullySaved() {
+        Toast.makeText(this, "Joke saved !", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void handleJokeSavedError(Throwable error) {
+        Toast.makeText(this, "error saving joke :\n" + error.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

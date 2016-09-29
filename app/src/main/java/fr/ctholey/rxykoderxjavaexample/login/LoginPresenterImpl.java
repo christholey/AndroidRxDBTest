@@ -4,6 +4,9 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
+import fr.ctholey.rxykoderxjavaexample.DBApi.DBApi;
+import fr.ctholey.rxykoderxjavaexample.DBApi.DBRealmApi;
+import fr.ctholey.rxykoderxjavaexample.MyApplication;
 import fr.ctholey.rxykoderxjavaexample.models.Joke;
 import fr.ctholey.rxykoderxjavaexample.ws.OkHttpCaller;
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,10 +26,12 @@ public class LoginPresenterImpl implements LoginPresenter<LoginView> {
     private CompositeSubscription compositeSubs = new CompositeSubscription();
 
     private OkHttpCaller httpCaller;
+    private DBRealmApi mDBApi;
 
     @Inject
-    public LoginPresenterImpl(OkHttpCaller httpCaller) {
+    public LoginPresenterImpl(OkHttpCaller httpCaller, DBRealmApi dbRealmApi) {
         this.httpCaller = httpCaller;
+        this.mDBApi = dbRealmApi;
     }
 
     @Override
@@ -55,6 +60,13 @@ public class LoginPresenterImpl implements LoginPresenter<LoginView> {
     @Override
     public void onJokeRetrieved(Joke joke) {
         mView.handleJokeContent(joke);
+    }
+
+    @Override
+    public void saveJoke(String joke) {
+        mDBApi.saveJokeAsync(joke,
+                () -> mView.handleJokeSuccessfullySaved(),
+                error -> mView.handleJokeSavedError(error));
     }
 
     @Override

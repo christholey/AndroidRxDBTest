@@ -5,6 +5,7 @@ import android.content.Context;
 
 import fr.ctholey.rxykoderxjavaexample.injection.ActivityComponent;
 import fr.ctholey.rxykoderxjavaexample.injection.ActivityModule;
+import fr.ctholey.rxykoderxjavaexample.injection.DBModule;
 import fr.ctholey.rxykoderxjavaexample.injection.DaggerActivityComponent;
 import fr.ctholey.rxykoderxjavaexample.injection.DaggerNetComponent;
 import fr.ctholey.rxykoderxjavaexample.injection.NetComponent;
@@ -19,16 +20,26 @@ public class MyApplication extends Application {
     private ActivityComponent mActivityComponent;
     private NetComponent mNetComponent;
 
+    private static MyApplication sInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        mNetComponent = DaggerNetComponent
-                .builder()
-                .netModule(getNetModule())
-                .build();
+        mNetComponent = getNetComponent(this);
 
+        setInstance(this);
     }
+
+    public MyApplication getInstance(){
+        return sInstance;
+    }
+
+    public static void setInstance(MyApplication application){
+        sInstance = application;
+    }
+
+    /*MODULES GETTERS*/
 
     protected NetModule getNetModule() {
         return new NetModule();
@@ -38,12 +49,19 @@ public class MyApplication extends Application {
         return new ActivityModule();
     }
 
+    protected DBModule getDBModule(){
+        return new DBModule(this);
+    }
+
+
+    /*COMPONENTS CREATION*/
 
     public static NetComponent getNetComponent(Context context){
         MyApplication app = (MyApplication) context.getApplicationContext();
-        if (app.mNetComponent == null) {
+        if (null == app.mNetComponent) {
             app.mNetComponent = DaggerNetComponent.builder()
                     .netModule(app.getNetModule())
+                    .dBModule(app.getDBModule())
                     .build();
         }
         return app.mNetComponent;
@@ -52,7 +70,7 @@ public class MyApplication extends Application {
 
     public static ActivityComponent getActivityComponent(Context context) {
         MyApplication app = (MyApplication) context.getApplicationContext();
-        if (app.mActivityComponent == null) {
+        if (null == app.mActivityComponent) {
             app.mActivityComponent = DaggerActivityComponent.builder()
                     .activityModule(app.getActivityModule())
                     .netComponent(app.mNetComponent)
@@ -60,4 +78,5 @@ public class MyApplication extends Application {
         }
         return app.mActivityComponent;
     }
+
 }

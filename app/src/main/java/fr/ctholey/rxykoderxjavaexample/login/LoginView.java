@@ -8,4 +8,8 @@ import fr.ctholey.rxykoderxjavaexample.models.Joke;
 public interface LoginView {
 
     void handleJokeContent(Joke joke);
+
+    void handleJokeSuccessfullySaved();
+
+    void handleJokeSavedError(Throwable error);
 }
