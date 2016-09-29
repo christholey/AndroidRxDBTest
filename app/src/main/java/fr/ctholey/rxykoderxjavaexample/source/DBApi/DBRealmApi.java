@@ -1,6 +1,4 @@
-package fr.ctholey.rxykoderxjavaexample.DBApi;
-
-import android.os.Environment;
+package fr.ctholey.rxykoderxjavaexample.source.DBApi;
 
 import javax.inject.Inject;
 

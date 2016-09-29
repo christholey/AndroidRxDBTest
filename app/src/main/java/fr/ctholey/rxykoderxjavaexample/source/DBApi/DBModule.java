@@ -1,4 +1,4 @@
-package fr.ctholey.rxykoderxjavaexample.injection;
+package fr.ctholey.rxykoderxjavaexample.source.DBApi;
 
 import android.content.Context;
 
@@ -6,9 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import fr.ctholey.rxykoderxjavaexample.DBApi.DBRealmApi;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * Created by ctholey on 28/09/2016.

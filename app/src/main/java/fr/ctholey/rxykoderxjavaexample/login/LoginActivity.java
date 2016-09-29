@@ -23,7 +23,7 @@ import fr.ctholey.rxykoderxjavaexample.models.Joke;
 import rx.Observable;
 import rx.subscriptions.CompositeSubscription;
 
-public class LoginActivity extends AppCompatActivity implements LoginView{
+public class LoginActivity extends AppCompatActivity implements LoginContract.View{
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     private CompositeSubscription compositeSubs = new CompositeSubscription();
 
     @Inject
-    LoginPresenterImpl presenter;
+    LoginContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
         ButterKnife.bind(this);
 //        ButterKnife.setDebug(true);
-        MyApplication.getActivityComponent(this).inject(this);
 
-        presenter.setView(this);
+//        MyApplication.getActivityComponent(this).inject(this);
 
-        setTitle("Rxjava test");
+        setTitle("Login");
 
         mBtnRandomJoke.setOnClickListener(v -> callChuckNorrisJokeRandom());
         mBtnSaveJoke.setOnClickListener(v -> saveCurrentJoke());
@@ -66,11 +65,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.setView(null);
+//        presenter.onDestroy();
+    }
+
+    @Override
+    public void setPresenter(LoginContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     private void callChuckNorrisJokeRandom() {
-        presenter.callChuckNorrisJokeRandom();
+        mPresenter.callChuckNorrisJokeRandom();
     }
 
     @Override
@@ -133,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     private void saveCurrentJoke() {
 
         String joke = mTvJokeDescription.getText().toString();
-        presenter.saveJoke(joke);
+        mPresenter.saveJoke(joke);
 
     }
 
@@ -146,4 +150,5 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     public void handleJokeSavedError(Throwable error) {
         Toast.makeText(this, "error saving joke :\n" + error.getMessage(), Toast.LENGTH_LONG).show();
     }
+
 }

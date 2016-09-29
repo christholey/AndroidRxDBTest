@@ -1,4 +1,4 @@
-package fr.ctholey.rxykoderxjavaexample.injection;
+package fr.ctholey.rxykoderxjavaexample.source.RemoteApi;
 
 import android.app.Application;
 import android.content.SharedPreferences;
