@@ -1,15 +1,11 @@
 package fr.ctholey.rxykoderxjavaexample;
 
 import android.app.Application;
-import android.content.Context;
 
-import fr.ctholey.rxykoderxjavaexample.injection.ActivityComponent;
-import fr.ctholey.rxykoderxjavaexample.injection.ActivityModule;
-import fr.ctholey.rxykoderxjavaexample.injection.DBModule;
-import fr.ctholey.rxykoderxjavaexample.injection.DaggerActivityComponent;
-import fr.ctholey.rxykoderxjavaexample.injection.DaggerNetComponent;
-import fr.ctholey.rxykoderxjavaexample.injection.NetComponent;
-import fr.ctholey.rxykoderxjavaexample.injection.NetModule;
+import fr.ctholey.rxykoderxjavaexample.source.DBApi.DBModule;
+import fr.ctholey.rxykoderxjavaexample.source.DaggerSourceComponent;
+import fr.ctholey.rxykoderxjavaexample.source.RemoteApi.NetModule;
+import fr.ctholey.rxykoderxjavaexample.source.SourceComponent;
 
 /**
  * Created by ctholey on 23/09/2016.
@@ -17,8 +13,7 @@ import fr.ctholey.rxykoderxjavaexample.injection.NetModule;
 
 public class MyApplication extends Application {
 
-    private ActivityComponent mActivityComponent;
-    private NetComponent mNetComponent;
+    private SourceComponent mSourceComponent;
 
     private static MyApplication sInstance;
 
@@ -26,12 +21,15 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        mNetComponent = getNetComponent(this);
+        mSourceComponent = DaggerSourceComponent.builder()
+                .netModule(getNetModule())
+                .dBModule(getDBModule())
+                .build();
 
         setInstance(this);
     }
 
-    public MyApplication getInstance(){
+    public static MyApplication getInstance(){
         return sInstance;
     }
 
@@ -45,38 +43,12 @@ public class MyApplication extends Application {
         return new NetModule();
     }
 
-    protected ActivityModule getActivityModule() {
-        return new ActivityModule();
-    }
-
     protected DBModule getDBModule(){
-        return new DBModule(this);
+        return new DBModule(getApplicationContext());
     }
 
-
-    /*COMPONENTS CREATION*/
-
-    public static NetComponent getNetComponent(Context context){
-        MyApplication app = (MyApplication) context.getApplicationContext();
-        if (null == app.mNetComponent) {
-            app.mNetComponent = DaggerNetComponent.builder()
-                    .netModule(app.getNetModule())
-                    .dBModule(app.getDBModule())
-                    .build();
-        }
-        return app.mNetComponent;
-    }
-
-
-    public static ActivityComponent getActivityComponent(Context context) {
-        MyApplication app = (MyApplication) context.getApplicationContext();
-        if (null == app.mActivityComponent) {
-            app.mActivityComponent = DaggerActivityComponent.builder()
-                    .activityModule(app.getActivityModule())
-                    .netComponent(app.mNetComponent)
-                    .build();
-        }
-        return app.mActivityComponent;
+    public SourceComponent getSourceComponent(){
+        return mSourceComponent;
     }
 
 }

@@ -1,4 +1,4 @@
-package fr.ctholey.rxykoderxjavaexample.DBApi;
+package fr.ctholey.rxykoderxjavaexample.source.DBApi;
 
 import io.realm.Realm;
 

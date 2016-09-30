@@ -5,5 +5,7 @@ package fr.ctholey.rxykoderxjavaexample;
  */
 public interface BasePresenter<T> {
 
-    void setView(T view);
+//    void setView(T view);
+
+    void start();
 }
