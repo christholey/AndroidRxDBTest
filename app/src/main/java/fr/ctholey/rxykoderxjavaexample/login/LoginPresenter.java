@@ -14,8 +14,11 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by ctholey on 23/09/2016.
  */
-
-public class LoginPresenter implements LoginContract.Presenter {
+/** Dagger generated code doesn't require public access to the constructor or class, and
+        * therefore, to ensure the developer doesn't instantiate the class manually and bypasses Dagger,
+        * it's good practice minimise the visibility of the class/constructor as much as possible.
+**/
+final class LoginPresenter implements LoginContract.Presenter {
 
     private static final String TAG = LoginPresenter.class.getSimpleName();
 
@@ -26,10 +29,15 @@ public class LoginPresenter implements LoginContract.Presenter {
     private LoginContract.View mLoginView;
 
     @Inject
-    public LoginPresenter(OkHttpCaller httpCaller, DBRealmApi dbRealmApi, LoginContract.View loginView) {
+    LoginPresenter(OkHttpCaller httpCaller, DBRealmApi dbRealmApi, LoginContract.View loginView) {
         this.httpCaller = httpCaller;
         this.mDBApi = dbRealmApi;
         this.mLoginView = loginView;
+    }
+
+    @Inject
+    void injectPresenterInView(){
+        mLoginView.setPresenter(this);
     }
 
 

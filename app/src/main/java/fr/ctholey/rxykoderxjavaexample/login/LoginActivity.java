@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private CompositeSubscription compositeSubs = new CompositeSubscription();
 
     @Inject
-    LoginContract.Presenter mPresenter;
+    LoginPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         ButterKnife.bind(this);
 //        ButterKnife.setDebug(true);
 
-//        MyApplication.getActivityComponent(this).inject(this);
+        DaggerLoginComponent.builder()
+                .loginPresenterModule(new LoginPresenterModule(this))
+                .sourceComponent(MyApplication.getInstance().getSourceComponent())
+                .build()
+                .inject(this);
 
         setTitle("Login");
 
@@ -70,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
+        mPresenter = (LoginPresenter) presenter;
     }
 
     private void callChuckNorrisJokeRandom() {

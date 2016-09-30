@@ -1,6 +1,7 @@
 package fr.ctholey.rxykoderxjavaexample.source.RemoteApi;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -26,8 +27,8 @@ public class NetModule {
     @Provides
     @Singleton
     // Application reference must come from AppModule.class
-    SharedPreferences providesSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
+    SharedPreferences providesSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Provides
