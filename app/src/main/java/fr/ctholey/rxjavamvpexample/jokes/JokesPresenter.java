@@ -17,7 +17,6 @@ public class JokesPresenter implements JokesContract.Presenter {
     private DBRealmApi mDbApi;
     private JokesContract.View mJokesView;
 
-
     @Inject
     public JokesPresenter(DBRealmApi dbRealmApi, JokesContract.View jokesView) {
         this.mDbApi = dbRealmApi;
@@ -41,13 +40,13 @@ public class JokesPresenter implements JokesContract.Presenter {
             @Override
             public void onJokesRetrieved(List<Joke> jokeList) {
                 if (null != jokeList){
-
+                    mJokesView.showJokeList(jokeList);
                 }
             }
 
             @Override
             public void onJokesUnavailable() {
-
+                mJokesView.handleErrorRetrievingList();
             }
         };
 

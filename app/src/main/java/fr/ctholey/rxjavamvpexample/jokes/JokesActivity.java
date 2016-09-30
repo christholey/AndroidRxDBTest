@@ -33,5 +33,7 @@ public class JokesActivity extends AppCompatActivity{
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), jokesFragment, R.id.fragmentPlaceholder);
         }
 
+
+
     }
 }

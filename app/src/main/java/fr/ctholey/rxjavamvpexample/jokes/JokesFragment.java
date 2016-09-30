@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +44,7 @@ public class JokesFragment extends Fragment implements JokesContract.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.jokes_fragment, container);
-
         return view;
-
     }
 
     @Override
@@ -61,11 +60,11 @@ public class JokesFragment extends Fragment implements JokesContract.View {
 
     @Override
     public void showJokeList(List<Joke> jokeList) {
-        
+        mAdapter.updateData(jokeList);
     }
 
     @Override
     public void handleErrorRetrievingList() {
-
+        Toast.makeText(getActivity(), "Erreur while retrieving the jokes.", Toast.LENGTH_LONG).show();
     }
 }
