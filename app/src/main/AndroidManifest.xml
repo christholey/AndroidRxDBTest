@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="fr.ctholey.rxykoderxjavaexample">
+          package="fr.ctholey.rxjavamvpexample">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
-        android:name=".MyApplication"
+        android:name="fr.ctholey.rxjavamvpexample.MyApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".login.LoginActivity">
+        <activity android:name="fr.ctholey.rxjavamvpexample.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
