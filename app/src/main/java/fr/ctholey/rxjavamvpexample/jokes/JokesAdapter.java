@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -36,8 +37,39 @@ public class JokesAdapter extends BaseAdapter {
         return position;
     }
 
+    public void updateData(List<Joke> jokes) {
+        if (null != jokes){
+            mJokeList.clear();
+            mJokeList.addAll(jokes);
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        if ()
+
+
         return null;
     }
+
+
+    class holder{
+
+        private TextView tvJokeDescription;
+
+        public holder() {
+        }
+
+        public TextView getTvJokeDescription() {
+            return tvJokeDescription;
+        }
+
+        public void setTvJokeDescription(TextView tvJokeDescription) {
+            this.tvJokeDescription = tvJokeDescription;
+        }
+    }
+
+
 }

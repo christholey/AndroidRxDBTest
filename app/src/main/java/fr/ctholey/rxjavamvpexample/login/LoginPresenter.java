@@ -50,14 +50,14 @@ final class LoginPresenter implements LoginContract.Presenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .retry(2)
                         .subscribe(
-                                joke -> onJokeRetrieved(joke),
+                                joke -> showJokeDescription(joke),
                                 throwable -> Log.d(TAG, throwable.getMessage())
                         )
         );
     }
 
     @Override
-    public void onJokeRetrieved(Joke joke) {
+    public void showJokeDescription(Joke joke) {
         mLoginView.handleJokeContent(joke);
     }
 
@@ -78,4 +78,6 @@ final class LoginPresenter implements LoginContract.Presenter {
     public void start() {
 
     }
+
+
 }

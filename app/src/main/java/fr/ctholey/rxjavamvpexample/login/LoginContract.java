@@ -27,7 +27,7 @@ public interface LoginContract {
 
         void callChuckNorrisJokeRandom();
 
-        void onJokeRetrieved(Joke joke);
+        void showJokeDescription(Joke joke);
 
         void saveJoke(String joke);
 

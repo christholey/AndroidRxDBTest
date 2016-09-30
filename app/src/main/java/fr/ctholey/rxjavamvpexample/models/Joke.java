@@ -3,6 +3,8 @@ package fr.ctholey.rxjavamvpexample.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
+
 import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.annotations.Ignore;
@@ -14,6 +16,8 @@ import io.realm.annotations.RealmClass;
  */
 @RealmClass
 public class Joke implements RealmModel{
+
+    public static final String ID = "id";
 
     @PrimaryKey
     private int id;
